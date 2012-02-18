@@ -1,7 +1,7 @@
 Name:           vbam
 #Pre-release version 1.8.0.1054 is a snapshot of svn 1054
 Version:        1.8.0.1054
-Release:        3%{?dist}
+Release:        4%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
@@ -109,7 +109,8 @@ sed -i '/Name=VBA-M/cName=VBA-M (WX)' src/wx/wx%{name}.desktop
 #Required for ffmpeg header to build
 export CPATH='/usr/include/ffmpeg'
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DVERSION=%{version} -DCMAKE_SKIP_RPATH=ON -DENABLE_LINK=ON
-make %{?_smp_mflags}
+free -m
+make V=1
 
 %install
 make install DESTDIR=%{buildroot}
@@ -177,6 +178,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Tue Feb 14 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-4
+- Changed building commands to avoid failed builds
+
 * Thu Jan 29 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-3
 - Added missing Build Requirement: openal-soft-devel
 - Removed redundant license files
