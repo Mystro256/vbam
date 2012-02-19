@@ -10,6 +10,7 @@ Url:            http://www.vba-m.com
 Source:         https://downloads.sourceforge.net/project/%{name}/VBA-M%20svn%20r1054/%{name}-%{version}-src.tar.gz
 
 BuildRequires:  SDL-devel
+BuildRequires:  zip
 BuildRequires:  ImageMagick
 BuildRequires:  cmake
 BuildRequires:  zlib-devel
@@ -180,6 +181,7 @@ fi
 %changelog
 * Tue Feb 14 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-4
 - Changed building commands to avoid failed builds
+- Added Zip as a dependancy
 
 * Thu Jan 29 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-3
 - Added missing Build Requirement: openal-soft-devel
