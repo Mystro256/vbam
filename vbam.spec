@@ -1,7 +1,7 @@
 Name:           vbam
 #Pre-release version 1.8.0.1054 is a snapshot of svn 1054
 Version:        1.8.0.1054
-Release:        4%{?dist}
+Release:        5%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
@@ -10,6 +10,7 @@ Url:            http://www.vba-m.com
 Source:         https://downloads.sourceforge.net/project/%{name}/VBA-M%20svn%20r1054/%{name}-%{version}-src.tar.gz
 
 BuildRequires:  SDL-devel
+BuildRequires:  zip
 BuildRequires:  ImageMagick
 BuildRequires:  cmake
 BuildRequires:  zlib-devel
@@ -178,6 +179,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Tue Feb 14 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-5
+- Added Zip as a dependancy
+
 * Tue Feb 14 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-4
 - Changed building commands to avoid failed builds
 
