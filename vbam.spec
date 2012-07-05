@@ -1,14 +1,18 @@
 Name:           vbam
-#Pre-release version 1.8.0.1054 is a snapshot of svn 1054
-Version:        1.8.0.1054
-Release:        5%{?dist}
+#Pre-release version 1.8.0.1097 is a snapshot of svn 1097
+Version:        1.8.0.1097
+Release:        1%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
 License:        GPLv2
 Url:            http://www.vba-m.com
-Source:         https://downloads.sourceforge.net/project/%{name}/VBA-M%20svn%20r1054/%{name}-%{version}-src.tar.gz
-
+##To download source run these commands:
+#svn co -r 1097 https://vbam.svn.sourceforge.net/svnroot/vbam vbam-temp
+#cd vbam-temp && rm -r -f trunk/project && mv trunk vbam-1.8.0.1097
+#tar -Jcv --exclude-vcs -f ../vbam-1.8.0.1097.tar.xz vbam-1.8.0.1097
+#cd .. && rm -r -f vbam-temp
+Source:         %{name}-%{version}.tar.xz
 BuildRequires:  SDL-devel
 BuildRequires:  zip
 BuildRequires:  ImageMagick
@@ -25,30 +29,25 @@ BuildRequires:  gtkglextmm-devel
 BuildRequires:  gtkmm24-devel
 BuildRequires:  cairo-devel
 BuildRequires:  ffmpeg-devel
-BuildRequires:  wxGTK-devel
 BuildRequires:  SFML-devel
 BuildRequires:  openal-soft-devel
 
 %package        gtk
 Summary:        GTK GUI for VBA-M, a high compatibility Gameboy Advance Emulator
-Requires:       vbam-common
-Requires:       vbam-gui-common
-
-%package        wx
-Summary:        WX GUI for VBA-M, a high compatibility Gameboy Advance Emulator
-Requires:       vbam-common
-Requires:       vbam-gui-common
+Requires:       %{name}-common
+#According to upstream, WX interface is currently not supported and should not be used yet
+#See revision 1061: http://vba-m.com/forum/Thread-visualboyadvance-m-svn-1085?pid=4823#pid4823
+Provides:       %{name}-wx = %{version}-%{release}
+Obsoletes:      %{name}-wx < 1.8.0.1097-1
+Provides:       %{name}-gui-common = %{version}-%{release}
+Obsoletes:      %{name}-gui-common < 1.8.0.1097-1
 
 %package        sdl
 Summary:        SDL version (no GUI) for VBA-M, a high compatibility Gameboy Advance Emulator
-Requires:       vbam-common
+Requires:       %{name}-common
 
 %package        common
 Summary:        Common configuration for VBA-M, a high compatibility Gameboy Advance Emulator
-BuildArch:      noarch
-
-%package        gui-common
-Summary:        Common icons files for VBA-M, a high compatibility Gameboy Advance Emulator
 BuildArch:      noarch
 
 %description
@@ -61,14 +60,6 @@ Advance project, with many improvements from various developments of VBA.
 
 %description    gtk
 This package provides the GTK GUI version of VisualBoyAdvance-M.
-VisualBoyAdvance-M is a Nintendo Game Boy Emulator with high compatibility with
-commercial games. It emulates the Nintendo Game Boy Advance hand held console,
-in addition to the original Game Boy hand held systems and its Super and Color
-variants. VBA-M is a continued development of the now inactive VisualBoy
-Advance project, with many improvements from various developments of VBA.
-
-%description    wx
-This package provides the experimental WX GUI version of VisualBoyAdvance-M.
 VisualBoyAdvance-M is a Nintendo Game Boy Emulator with high compatibility with
 commercial games. It emulates the Nintendo Game Boy Advance hand held console,
 in addition to the original Game Boy hand held systems and its Super and Color
@@ -92,24 +83,13 @@ in addition to the original Game Boy hand held systems and its Super and Color
 variants. VBA-M is a continued development of the now inactive VisualBoy
 Advance project, with many improvements from various developments of VBA.
 
-%description    gui-common
-This package provides common icon files for either GUI versions.
-VisualBoyAdvance-M is a Nintendo Game Boy Emulator with high compatibility with
-commercial games. It emulates the Nintendo Game Boy Advance hand held console,
-in addition to the original Game Boy hand held systems and its Super and Color
-variants. VBA-M is a continued development of the now inactive VisualBoy
-Advance project, with many improvements from various developments of VBA.
-
 %prep
 %setup -q
 sed -i '/CMAKE_C.*_FLAGS/d' CMakeLists.txt
-#To avoid confusion of the two .desktops:
-sed -i '/Name=VBA-M/cName=VBA-M (WX)' src/wx/wx%{name}.desktop
 
 %build
-#Required for ffmpeg header to build
-export CPATH='/usr/include/ffmpeg'
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DVERSION=%{version} -DCMAKE_SKIP_RPATH=ON -DENABLE_LINK=ON
+#Needed for rpmfusion build servers
 free -m
 make V=1
 
@@ -120,39 +100,28 @@ desktop-file-install \
   --remove-key=Encoding \
   --dir %{buildroot}%{_datadir}/applications \
   src/gtk/g%{name}.desktop
-desktop-file-install \
-  --remove-category Application \
-  --remove-key=Encoding \
-  --dir %{buildroot}%{_datadir}/applications \
-  src/wx/wx%{name}.desktop
 install -p -D -m 0644  debian/%{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
+install -p -D -m 0644  debian/g%{name}.1 %{buildroot}/%{_mandir}/man1/g%{name}.1
 %find_lang g%{name}
-%find_lang wx%{name}
 
 %files gtk -f g%{name}.lang
-#excluded doc/ReadMe.MFC.txt, as it's not utf8 and seems very windows oriented
-%doc doc/ips.htm
 %{_datadir}/%{name}
+%{_mandir}/man1/g%{name}.1*
 %{_bindir}/g%{name}
 %{_datadir}/applications/g%{name}.desktop
-
-%files wx -f wx%{name}.lang
-#excluded doc/ReadMe.MFC.txt, as it's not utf8 and seems very windows oriented
-%doc doc/ips.htm
-%{_bindir}/wx%{name}
-%{_datadir}/applications/wx%{name}.desktop
+%{_datadir}/icons/hicolor/*/apps/%{name}.*
 
 %files sdl
-%doc doc/ips.htm doc/ReadMe.SDL.txt
+%doc doc/ReadMe.SDL.txt
 %{_mandir}/man1/%{name}.1*
 %{_bindir}/%{name}
 
 %files common
-%doc doc/gpl.txt doc/License.txt
+#excluded doc/ReadMe.MFC.txt and doc/DevInfo.txt,
+#as the former is not utf8 and is windows only
+#and the latter is only important for building/development
+%doc doc/ips.htm doc/gpl.txt doc/License.txt
 %config(noreplace) /etc/%{name}.cfg
-
-%files gui-common
-%{_datadir}/icons/hicolor/*/apps/%{name}.*
 
 %post gtk
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
@@ -166,19 +135,18 @@ fi
 %posttrans gtk
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
-%post wx
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-%postun wx
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-%posttrans wx
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
 %changelog
+* Thu Jul 5 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1097-1
+- Updated to new upstream version
+- Disabling WX because its not supported
+- Removed extra sources as they are now included
+- Removed FFMPEG fix
+- Moved ips.htm doc file into common to avoid duplicates
+- Various cleanup
+
+* Wed Mar 28 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-6
+- Added man pages
+
 * Tue Feb 14 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-5
 - Added Zip as a dependancy
 
@@ -197,7 +165,7 @@ fi
 - Various tweaks
 
 * Thu Jan 26 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-1
-- Updated new upstream version
+- Updated to new upstream version
 - Added new WX subpackage for new GUI
 - Adding WX requires gui common subpackage to avoid conflicts
 - Added DVERSION cmake tag for aesthetic reasons
