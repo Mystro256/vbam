@@ -89,6 +89,8 @@ sed -i '/CMAKE_C.*_FLAGS/d' CMakeLists.txt
 
 %build
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DVERSION=%{version} -DCMAKE_SKIP_RPATH=ON -DENABLE_LINK=ON
+#Required for ffmpeg header to build
+export CPATH='/usr/include/ffmpeg'
 #Needed for rpmfusion build servers
 make V=1
 
