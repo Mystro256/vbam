@@ -1,7 +1,7 @@
 Name:           vbam
 #Pre-release version 1.8.0.1097 is a snapshot of svn 1097
 Version:        1.8.0.1097
-Release:        2%{?dist}
+Release:        3%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
@@ -137,6 +137,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Sat Nov 24 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.8.0.1097-3
+- Rebuilt for FFmpeg 1.0
+
 * Sun Jul 15 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1097-2
 - Minor change to fix build issues
 
