@@ -1,16 +1,16 @@
 Name:           vbam
-#Pre-release version 1.8.0.1097 is a snapshot of svn 1097
-Version:        1.8.0.1097
-Release:        3%{?dist}
+#Pre-release version 1.8.0.1149 is a snapshot of svn 1149
+Version:        1.8.0.1149
+Release:        1%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
 License:        GPLv2
 Url:            http://www.vba-m.com
 ##To download source run these commands:
-#svn co -r 1097 https://vbam.svn.sourceforge.net/svnroot/vbam vbam-temp
-#cd vbam-temp && rm -r -f trunk/project && mv trunk vbam-1.8.0.1097
-#tar -Jcv --exclude-vcs -f ../vbam-1.8.0.1097.tar.xz vbam-1.8.0.1097
+#svn co -r 1149 https://vbam.svn.sourceforge.net/svnroot/vbam vbam-temp
+#cd vbam-temp && rm -r -f trunk/project && mv trunk vbam-1.8.0.1149
+#tar -Jcv --exclude-vcs -f ../vbam-1.8.0.1149.tar.xz vbam-1.8.0.1149
 #cd .. && rm -r -f vbam-temp
 Source:         %{name}-%{version}.tar.xz
 BuildRequires:  SDL-devel
@@ -28,7 +28,6 @@ BuildRequires:  gtkglext-devel
 BuildRequires:  gtkglextmm-devel
 BuildRequires:  gtkmm24-devel
 BuildRequires:  cairo-devel
-BuildRequires:  ffmpeg-devel
 BuildRequires:  SFML-devel
 BuildRequires:  openal-soft-devel
 
@@ -89,9 +88,7 @@ sed -i '/CMAKE_C.*_FLAGS/d' CMakeLists.txt
 
 %build
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DVERSION=%{version} -DCMAKE_SKIP_RPATH=ON -DENABLE_LINK=ON
-#Required for ffmpeg header to build
-export CPATH='/usr/include/ffmpeg'
-#Needed for rpmfusion build servers
+#V=1 Needed for rpmfusion build servers
 make V=1
 
 %install
@@ -137,11 +134,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
-* Sat Nov 24 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.8.0.1097-3
-- Rebuilt for FFmpeg 1.0
-
-* Sun Jul 15 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1097-2
-- Minor change to fix build issues
+* Mon Dec 10 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1149-1
+- Updated to new upstream version
+- FFMpeg dep removed due to only needed by wx and now disabled by default
 
 * Thu Jul 5 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1097-1
 - Updated to new upstream version
