@@ -1,7 +1,7 @@
 Name:           vbam
 #Pre-release version 1.8.0.1149 is a snapshot of svn 1149
 Version:        1.8.0.1149
-Release:        1%{?dist}
+Release:        2%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
@@ -134,6 +134,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Wed Jan 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.8.0.1149-2
+- Rebuilt for ffmpeg
+
 * Mon Dec 10 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1149-1
 - Updated to new upstream version
 - FFMpeg dep removed due to only needed by wx and now disabled by default
