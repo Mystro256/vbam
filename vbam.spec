@@ -1,18 +1,13 @@
 Name:           vbam
-#Pre-release version 1.8.0.1149 is a snapshot of svn 1149
-Version:        1.8.0.1149
-Release:        2%{?dist}
+#Pre-release version 1.8.0.1159 is a snapshot of svn 1159
+Version:        1.8.0.1159
+Release:        1%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
 License:        GPLv2
 Url:            http://www.vba-m.com
-##To download source run these commands:
-#svn co -r 1149 https://vbam.svn.sourceforge.net/svnroot/vbam vbam-temp
-#cd vbam-temp && rm -r -f trunk/project && mv trunk vbam-1.8.0.1149
-#tar -Jcv --exclude-vcs -f ../vbam-1.8.0.1149.tar.xz vbam-1.8.0.1149
-#cd .. && rm -r -f vbam-temp
-Source:         %{name}-%{version}.tar.xz
+Source:         http://downloads.sourceforge.net/project/%{name}/%{name}-src/%{name}-r1159-src.tar.bz2
 BuildRequires:  SDL-devel
 BuildRequires:  zip
 BuildRequires:  ImageMagick
@@ -83,7 +78,7 @@ variants. VBA-M is a continued development of the now inactive VisualBoy
 Advance project, with many improvements from various developments of VBA.
 
 %prep
-%setup -q
+%setup -q -c %{name}-%{version}
 sed -i '/CMAKE_C.*_FLAGS/d' CMakeLists.txt
 
 %build
@@ -134,8 +129,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
-* Wed Jan 30 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.8.0.1149-2
-- Rebuilt for ffmpeg
+* Fri Mar 1 2013 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1159-1
+- Updated to new upstream version
+- Fixed some spec date typos
 
 * Mon Dec 10 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1149-1
 - Updated to new upstream version
@@ -158,7 +154,7 @@ fi
 * Tue Feb 14 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-4
 - Changed building commands to avoid failed builds
 
-* Thu Jan 29 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-3
+* Sun Jan 29 2012 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1054-3
 - Added missing Build Requirement: openal-soft-devel
 - Removed redundant license files
 
