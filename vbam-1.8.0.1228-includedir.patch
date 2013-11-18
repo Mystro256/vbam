@@ -1,0 +1,23 @@
+diff -Nur SOURCE.orig/CMakeLists.txt SOURCE/CMakeLists.txt
+--- SOURCE.orig/CMakeLists.txt	2012-10-03 20:00:45.000000000 +0200
++++ SOURCE/CMakeLists.txt	2013-10-25 21:07:45.392711376 +0200
+@@ -66,6 +66,7 @@
+ 
+ if( ENABLE_LINK )
+     FIND_PACKAGE ( SFML REQUIRED )
++    INCLUDE_DIRECTORIES ( /usr/include/sfml1 )
+ endif( ENABLE_LINK )
+ # set the standard libraries all ports use
+ SET(VBAMCORE_LIBS
+diff -Nur SOURCE.orig/CMakeScripts/FindSFML.cmake SOURCE/CMakeScripts/FindSFML.cmake
+--- SOURCE.orig/CMakeScripts/FindSFML.cmake	2011-02-20 20:06:05.000000000 +0100
++++ SOURCE/CMakeScripts/FindSFML.cmake	2013-10-25 21:06:56.156359107 +0200
+@@ -21,7 +21,7 @@
+     ~/Library/Frameworks 
+     /Library/Frameworks 
+     /usr/local/include/SFML 
+-    /usr/include/SFML 
++    /usr/include/sfml1/SFML 
+     /usr/local/include 
+     /usr/include 
+     /sw/include/SFML # Fink 
