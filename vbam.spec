@@ -1,7 +1,7 @@
 Name:           vbam
 #Pre-release version 1.8.0.1228 is a snapshot of svn 1228
 Version:        1.8.0.1228
-Release:        2%{?dist}
+Release:        3%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
@@ -10,7 +10,7 @@ Url:            http://www.vba-m.com
 #Grab code using svn co svn://svn.code.sf.net/p/vbam/code/trunk vbam-%{version}
 #tar -Jcv --exclude-vcs -f vbam-%{version}.tar.xz vbam-%{version}
 Source:         vbam-%{version}.tar.xz
-#Kudos to Michael Schwendt on this one (updates pathes for compat-SFML16-devel):
+#Kudos to Michael Schwendt and Hans de Goede (updates paths for compat-SFML16-devel):
 Patch0:         %{name}-%{version}-includedir.patch
 BuildRequires:  SDL-devel
 BuildRequires:  zip
@@ -134,6 +134,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Mon Nov 18 2013 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1228-3
+- Update patch for SFML, thanks to Hans de Goede
+
 * Sun Nov 17 2013 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1228-2
 - Added patch for SFML
 
