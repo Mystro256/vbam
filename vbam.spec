@@ -1,14 +1,15 @@
 Name:           vbam
-#Pre-release version 1.8.0.1228 is a snapshot of svn 1228
-Version:        1.8.0.1228
-Release:        3%{?dist}
+#Pre-release version 1.8.0.1228 is a snapshot of svn 1229
+Version:        1.8.0.1229
+Release:        1%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
 License:        GPLv2
 Url:            http://www.vba-m.com
-#Grab code using svn co svn://svn.code.sf.net/p/vbam/code/trunk vbam-%{version}
-#tar -Jcv --exclude-vcs -f vbam-%{version}.tar.xz vbam-%{version}
+#Grab code using:
+#svn co svn://svn.code.sf.net/p/vbam/code/trunk -r 1229 vbam-1.8.0.1229
+#tar -Jcv --exclude-vcs -f vbam-1.8.0.1229.tar.xz vbam-1.8.0.1229
 Source:         vbam-%{version}.tar.xz
 #Kudos to Michael Schwendt and Hans de Goede (updates paths for compat-SFML16-devel):
 Patch0:         %{name}-%{version}-includedir.patch
@@ -35,9 +36,7 @@ Summary:        GTK GUI for VBA-M, a high compatibility Gameboy Advance Emulator
 Requires:       %{name}-common
 #According to upstream, WX interface is currently not supported and should not be used yet
 #See revision 1061: http://vba-m.com/forum/Thread-visualboyadvance-m-svn-1085?pid=4823#pid4823
-Provides:       %{name}-wx = %{version}-%{release}
 Obsoletes:      %{name}-wx < 1.8.0.1097-1
-Provides:       %{name}-gui-common = %{version}-%{release}
 Obsoletes:      %{name}-gui-common < 1.8.0.1097-1
 
 %package        sdl
@@ -134,6 +133,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Sat Apr 5 2014 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1229-1
+- Update to latest "release" version
+
 * Mon Nov 18 2013 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1228-3
 - Update patch for SFML, thanks to Hans de Goede
 
