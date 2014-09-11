@@ -134,7 +134,7 @@ fi
 
 %changelog
 * Thu Sep 11 2014 Sérgio Basto <sergio@serjux.com> - 1.8.0.1229-2
-- Rebuilt for ffmpeg-2.3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
 * Sat Apr 5 2014 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1229-1
 - Update to latest "release" version
