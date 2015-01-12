@@ -1,7 +1,7 @@
 Name:           vbam
 #Pre-release version 1.8.0.1228 is a snapshot of svn 1229
 Version:        1.8.0.1229
-Release:        1%{?dist}
+Release:        2%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
@@ -84,6 +84,10 @@ Advance project, with many improvements from various developments of VBA.
 %setup -q
 %patch0 -p1
 sed -i '/CMAKE_C.*_FLAGS/d' CMakeLists.txt
+#Typos in desktop file:
+#https://sourceforge.net/p/vbam/bugs/159/
+sed -i 's/Nindendo/Nintendo/g' src/gtk/g%{name}.desktop
+sed -i 's/GameBoy/Game Boy/g' src/gtk/g%{name}.desktop
 
 %build
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DVERSION=%{version} -DCMAKE_SKIP_RPATH=ON -DENABLE_LINK=ON
@@ -133,6 +137,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Mon Jan 12 2015 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1229-2
+- Fix typo in desktop file
+
 * Sat Apr 5 2014 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1229-1
 - Update to latest "release" version
 
