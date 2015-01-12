@@ -84,6 +84,10 @@ Advance project, with many improvements from various developments of VBA.
 %setup -q
 %patch0 -p1
 sed -i '/CMAKE_C.*_FLAGS/d' CMakeLists.txt
+#Typos in desktop file:
+#https://sourceforge.net/p/vbam/bugs/159/
+sed -i 's/Nindendo/Nintendo/g' src/gtk/g%{name}.desktop
+sed -i 's/GameBoy/Game Boy/g' src/gtk/g%{name}.desktop
 
 %build
 %cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DVERSION=%{version} -DCMAKE_SKIP_RPATH=ON -DENABLE_LINK=ON
@@ -133,8 +137,8 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
-* Thu Sep 11 2014 Sérgio Basto <sergio@serjux.com> - 1.8.0.1229-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+* Mon Jan 12 2015 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1229-2
+- Fix typo in desktop file
 
 * Sat Apr 5 2014 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1229-1
 - Update to latest "release" version
