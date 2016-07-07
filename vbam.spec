@@ -1,7 +1,7 @@
 Name:           vbam
 #Pre-release version 1.8.0.1228 is a snapshot of svn 1229
 Version:        1.8.0.1229
-Release:        2%{?dist}
+Release:        3%{?dist}
 #Will not create a binary vbam package, only vbam-gtk and vbam-sdl subpackages
 Summary:        High compatibility Gameboy Advance Emulator combining VBA developments
 
@@ -13,6 +13,7 @@ Url:            http://www.vba-m.com
 Source:         vbam-%{version}.tar.xz
 #Kudos to Michael Schwendt and Hans de Goede (updates paths for compat-SFML16-devel):
 Patch0:         %{name}-%{version}-includedir.patch
+Patch1:         %{name}-%{version}-gcc6.patch
 BuildRequires:  SDL-devel
 BuildRequires:  zip
 BuildRequires:  ImageMagick
@@ -83,6 +84,7 @@ Advance project, with many improvements from various developments of VBA.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 sed -i '/CMAKE_C.*_FLAGS/d' CMakeLists.txt
 #Typos in desktop file:
 #https://sourceforge.net/p/vbam/bugs/159/
@@ -137,6 +139,9 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %changelog
+* Thu Jul  7 2016 Hans de Goede <j.w.r.degoede@gmail.com> - 1.8.0.1229-3
+- Fix building with gcc6 / fix FTBFS
+
 * Mon Jan 12 2015 Jeremy Newton <alexjnewt@hotmail.com> - 1.8.0.1229-2
 - Fix typo in desktop file
 
